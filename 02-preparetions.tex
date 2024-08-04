@@ -1,0 +1,6 @@
+\chapter{Preparations}
+
+During the duration of this project, I successfully set up and worked with the Boreas dataset \autocite[1]{burnett2023boreasmultiseasonautonomousdriving}, a comprehensive multi-season autonomous driving dataset collected over the course of one year. The Boreas dataset includes over 350 kilometers of driving data, featuring stark seasonal variations and adverse weather conditions such as rain and heavy snow. This dataset is equipped with high-quality sensors, including a 128-channel Velodyne Alpha Prime lidar, a 360-degree Navtech radar, and accurate ground truth poses obtained from an Applanix POSLV GPS/IMU2. These features make the Boreas dataset an invaluable resource for developing and testing robust models in diverse and challenging environments. I managed to setup ten parts of this dataset.
+\\
+I modified the SPADE and Pix2Pix models to generate accurate weather masks for each data entry. These modifications involved the models to better handle the specific characteristics of the Boreas dataset, ensuring that the generated weather masks were both precise and reliable. This process not only enhanced the models’ performance but also provided valuable insights into the relationship between different weather conditions and their visual representations.
+
