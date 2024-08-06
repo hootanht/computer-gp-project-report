@@ -22,4 +22,29 @@ However it has some drawbacks:
 \end{itemize}
 
 \subsection{Model}
-The pix2pix and SPADE is my choice.
+
+\subsubsection{SPADE}
+The SPADE (Spatially-Adaptive Denormalization) model from NVIDIA is a groundbreaking approach for semantic image synthesis. Introduced in 2019, SPADE addresses the limitations of traditional normalization techniques that often wash away semantic information. Instead of directly feeding the semantic layout into the network, SPADE uses the layout to modulate the activations in normalization layers through a spatially-adaptive, learned transformation. This method allows for the generation of photorealistic images that align closely with the input semantic maps. SPADE has demonstrated superior performance on challenging datasets like COCO-Stuff and Cityscapes, enabling users to control the style and content of the synthesized images effectively.
+\\ I selected SPADE for this project. SPADE gets two images Segmentation and Edge. its output is a single RGB image.
+\subsubsection{Pix2Pix}
+The pix2pix model, developed by UC Berkeley, uses a conditional Generative Adversarial Network (cGAN) for image-to-image translation tasks like converting sketches to photos. It consists of a Generator and a Discriminator to create and evaluate images. For my project, I used the `pytorch-CycleGAN-and-pix2pix` implementation, which simplifies training and testing these models for high-quality image synthesis.
+\section{Implementation}
+\subsection{BOARS}
+I randomly select images from the dataset. Additionally, I apply rotations to some of the samples to augment the dataset size.
+\subsection{SPADE}
+I changed the model to accept two images. a camera image and a weather mask image and the output of it be a cloud point image.
+\\
+I modified the model to concatenate the camera image with the paired weather mask in the similar way as the original SPADE works with Segmentation and Edge images, resulting in a 4-dimensional tensor.
+This increase in dimensions necessitates modifications to the convolution layers.
+\subsection{Pix2Pix}
+The original Pix2Pix get single image however I modified the model to accept two input images: a camera image and a weather mask image. The output of the model is a cloud point image.
+I modified the model to concatenate the camera image with the paired weather mask in the
+similar way as the original SPADE works with Segmentation and Edge images, resulting in a 4-
+dimensional tensor. However, this model requires less modifications in convolution layers paramenter because many of them come from the option.
+
+\section{Result}
+I trained the models using two datasets. The first was a base dataset that applied the same weather mask for every weather condition, serving as a baseline for comparison. The second dataset included weather conditions where each condition had a unique spatial mask.
+
+Initially, the SPADE model experienced underfitting for the first 30 epochs. However, as the number of epochs increased, this issue began to diminish.
+
+While there was no significant difference in performance between the base and weather conditions models regarding weather conditions, a notable difference emerged in their ability to predict distorted camera images. The models trained with the spatial masks showed improved accuracy in handling these distortions.
