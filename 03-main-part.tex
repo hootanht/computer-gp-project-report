@@ -37,7 +37,7 @@ I randomly selected images from the dataset and applied rotations to some sample
     \centering
     \begin{tabular}{|l|c|c|c|c|c|c|c|}
         \hline
-        condition  & Snow    & Raining & Sun     & Clouds  & Snowing & Overcast \\
+        Condition  & Snow    & Raining & Sun     & Clouds  & Snowing & Overcast \\
         \hline
         Percentage & 17.15\% & 16.62\% & 19.14\% & 15.54\% & 15.67\% & 15.88\%  \\
         \hline
@@ -46,7 +46,7 @@ I randomly selected images from the dataset and applied rotations to some sample
 \end{table}
 The percentage of each weather condition remain the same number after the decreasing of sample size.
 \\
-The base dataset all mask are same and they are 0 grayscale, On the other hand, the dataset for each weather condition includes spatial image masks with varying grayscale values, spaced at intervals of 30 degrees. 
+The base dataset all mask are same and they are 0 grayscale, On the other hand, the dataset for each weather condition includes spatial image masks with varying grayscale values, spaced at intervals of 30 degrees.
 \subsubsection{Validation set}
 I used 120 images from BOARS. Every weather condition has the same precntage 16.67\%.
 \subsection{SPADE}
@@ -66,3 +66,36 @@ I trained the models using two datasets. The first was a base dataset that appli
 Initially, the SPADE model experienced underfitting for the first 30 epochs. However, as the number of epochs increased, this issue began to diminish.
 
 While there was no significant difference in performance between the base and weather conditions models regarding weather conditions, a notable difference emerged in their ability to predict distorted camera images. The models trained with the spatial masks showed improved accuracy in handling these distortions.
+\begin{figure}[!ht]
+    \begin{minipage}[t]{.24\linewidth}
+        \includegraphics[width=\linewidth]{imgs/base/camera.png}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{.24\linewidth}
+        \includegraphics[width=\linewidth]{imgs/base/ground.png}
+        \hbox{ground}
+    \end{minipage}
+    \begin{minipage}[t]{.24\linewidth}
+        \includegraphics[width=\linewidth]{imgs/base/same.png}
+        \hbox{The same mask}
+    \end{minipage}
+    \begin{minipage}[t]{.24\linewidth}
+        \includegraphics[width=\linewidth]{imgs/base/weathermasl.png}
+        \hbox{Spatial weather mask}
+    \end{minipage}
+    \caption{A item of validation set which camera image be distorted}
+    \label{img:result-camera}
+\end{figure}
+
+\begin{table}
+    \centering
+    \begin{tabular}{l c c}
+        \hline
+        Condition  & Same Mask    & Spatial weather mask \\
+        \hline
+        L1 loss & 5.4234 & 5.3506 \\
+        \hline
+    \end{tabular}
+    \caption{The L1 loss for camera image distorted}
+    \label{table:result-l1}
+\end{table}
+The table \ref{table:result-l1} shows the L1 loss of the image \ref{img:result-camera}. Nevertheless, the L1 loss between is similar in other conditions.
