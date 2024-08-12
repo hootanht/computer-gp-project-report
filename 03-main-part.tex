@@ -29,10 +29,28 @@ The SPADE (Spatially-Adaptive Denormalization) model from NVIDIA is a groundbrea
 \subsubsection{Pix2Pix}
 The pix2pix model, developed by UC Berkeley, uses a conditional Generative Adversarial Network (cGAN) for image-to-image translation tasks like converting sketches to photos. It consists of a Generator and a Discriminator to create and evaluate images. For my project, I used the `pytorch-CycleGAN-and-pix2pix` implementation, which simplifies training and testing these models for high-quality image synthesis.
 \section{Implementation}
-\subsection{BOARS}
-I randomly select images from the dataset. Additionally, I apply rotations to some of the samples to augment the dataset size.
+\subsection{Dataset}
+\subsubsection{Train dataset}
+I randomly selected images from the dataset and applied rotations to some samples to augment the dataset size. The images were resized to 1888x1576 pixels and converted from PNG to JPG format. Both the mask and cloud point retained the same dimensions. Initially, the dataset contained 129,000 items when using SPADE. However, after the first training, I resampled the dataset to 1/10th of its original size, resulting in 12,900 items.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|c|c|c|c|c|}
+        \hline
+        condition  & Snow    & Raining & Sun     & Clouds  & Snowing & Overcast \\
+        \hline
+        Percentage & 17.15\% & 16.62\% & 19.14\% & 15.54\% & 15.67\% & 15.88\%  \\
+        \hline
+    \end{tabular}
+    \caption{the precntge of each weather.}
+\end{table}
+The percentage of each weather condition remain the same number after the decreasing of sample size.
+\\
+The base dataset all mask are same and they are 0 grayscale, On the other hand, the dataset for each weather condition includes spatial image masks with varying grayscale values, spaced at intervals of 30 degrees. 
+\subsubsection{Validation set}
+I used 120 images from BOARS. Every weather condition has the same precntage 16.67\%.
 \subsection{SPADE}
-I changed the model to accept two images. a camera image and a weather mask image and the output of it be a cloud point image.
+I changed the model to accept two images. A camera image and a weather mask image and the output of it be a cloud point image.
 \\
 I modified the model to concatenate the camera image with the paired weather mask in the similar way as the original SPADE works with Segmentation and Edge images, resulting in a 4-dimensional tensor.
 This increase in dimensions necessitates modifications to the convolution layers.
